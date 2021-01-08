@@ -35,12 +35,8 @@ function setup() {
 
 	stone = new Stone(100,340);
 
-	sling = new Sling(stone.body,{x:100,y:350});
+	sling = new Sling(stone.body,{x:110,y:350});
 
-	//boy = new Boy(150,400);
-	
-	//boy.addImage(boyImage);
-	//boy.scale=0.1;
 	Engine.run(engine);
   
 }
@@ -60,13 +56,19 @@ function draw() {
   mango7.display();
   mango8.display();
  
-  
-  //boy.display();
-  //drawSprites();
   stone.display();
   
   sling.display();
   image(boyImage,150,400,130,200);
+
+  detectCollision(stone,mango1);
+  detectCollision(stone,mango2);
+  detectCollision(stone,mango3);
+  detectCollision(stone,mango4);
+  detectCollision(stone,mango5);
+  detectCollision(stone,mango6);
+  detectCollision(stone,mango7);
+  detectCollision(stone,mango8);
 }
 
 function mouseDragged(){
@@ -75,5 +77,27 @@ function mouseDragged(){
 
 function mouseReleased(){
 	sling.fly();
+}
+
+function detectCollision(stone,mango){
+	
+	stonePos = stone.body.position;
+	mangoPos = mango.body.position;
+
+	distance = dist(stonePos.x,stonePos.y,mangoPos.x,mangoPos.y);
+
+	if(distance<=stone.radius+mango.radius){
+		console.log("inside condition");
+		Matter.Body.setStatic(mango.body,false);
+	}
+}
+
+function keyPressed(){
+	console.log("in key pressed");
+	if(keyCode == 32){
+		console.log("in condition");
+		Matter.Body.setPosition(stone.body,{x:100,y:340});
+		sling.attach(stone.body);
+	}
 }
 
